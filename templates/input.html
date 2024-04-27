@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <section class="bg-white dark:bg-gray-900">
+        <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new product</h2>
+            <form action="#">
+                <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                    <div class="w-full">
+                        <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Varience</label>
+                        <input type="input" name="varience" id="varience" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="varience" required="">
+                    </div>
+                    <div class="w-full">
+                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Skewness</label>
+                        <input type="input" name="skewness" id="skewness" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="skewness" required="">
+                    </div>
+                    <div class="w-full">
+                        <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Curtosis</label>
+                        <input type="input" name="curtosis" id="curtosis" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="curtosis" required="">
+                    </div>
+                    <div class="w-full">
+                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Entropy</label>
+                        <input type="input" name="entropy" id="entropy" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="entropy" required="">
+                    </div>
+                </div>
+                <div class="text-center my-10">
+                    <button onclick = "clearAllInputs()" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Default</button>
+                </div>
+            </form>
+        </div>
+      </section>
+
+      <section class="bg-white dark:bg-gray-900">
+        <div id="answer" class="py-8 px-4 mx-auto max-w-2xl lg:py-16 flex justify-center items-center">??</div>
+      </section>
+
+      <script>
+        const form = document.querySelector('form');
+      
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+      
+          const formData = new FormData(form);
+          const payload = Object.fromEntries(formData);
+      
+          try {
+            const response = await fetch('/check', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            });
+      
+            const data = await response.json();
+      
+            if (response.ok) {
+                document.getElementById("answer").innerHTML = data.prediction;
+                form.reset();
+            }
+            else {
+              alert(`Error: ${data.detail}`);
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+          }
+        });
+
+      </script>
+</body>
+</html>
