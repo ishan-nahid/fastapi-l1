@@ -1,7 +1,6 @@
 from http.client import HTTPException
 from fastapi import FastAPI, Request
-from dotenv import load_dotenv
-
+import os
 from fastapi.templating import Jinja2Templates
 
 
@@ -14,7 +13,6 @@ import pandas as pd
 import numpy as np
 from sklearn.svm import SVC
 
-load_dotenv()
 app = FastAPI()
 template = Jinja2Templates(directory="templates")
 
@@ -64,4 +62,4 @@ def get_name(data: BankNote):
     # )
 
 if __name__ == "__main__":
-    uvicorn.run("app.api:app", reload=True, port=PORT, host=HOST)
+    uvicorn.run("app.api:app", reload=True, port=8000, host="0.0.0.0")
